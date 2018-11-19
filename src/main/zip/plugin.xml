@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://www.urbancode.com/PluginXMLSchema_v1">
+    <header>
+        <identifier version="1" id="com.urbancode.air.plugin.MicroFocus-AAT"
+                    name="Micro Focus Application Automation Tools"/>
+        <description>
+			The Micro Focus Unified Functional Testing (UFT) Plugin plugin is a quality automation based plugin. 
+			It is run during development and deployment to automate the execution of functional tests.
+        </description>
+        <tag>Quality/Micro Focus</tag>
+    </header>
+    <!-- ==================================== -->
+    <!--   PLUGIN STEPS                          -->
+    <!-- ==================================== -->
+    <step-type name="UFT Scenario from Filesystem">
+        <description>Execute a UFT Scenario from the file system</description>
+        <properties>
+            <property name="tests">
+                <property-ui type="textAreaBox" label="Tests"
+                             description="List of tests or folders that contain tests, to run. Each line should contain a single test, folder, or MTB file."/>
+            </property>
+            <property name="parallelRunnerMode">
+                <property-ui type="checkBox" label="UFT parallel running mode"
+                             description="This mode is for UFT GUI test only. With it enabled, you can define multiple tests and the environments to run with."/>
+            </property>
+            <property name="parallelRunnerEnvs">
+                <property-ui type="textAreaBox" label="UFT parallel running environments"
+                             description="UFT will run on these environments in parallel(at most 4 environments simultaneously) for each test, examples: browser=FireFox64,browser=Chrome"/>
+            </property>
+            <property name="fsUftRunMode">
+                <property-ui type="selectBox" label="UFT Run Mode" default-value="Fast"/>
+                <value label="Fast">Fast</value>
+                <value label="Normal">Normal</value>
+            </property>
+            <property name="fsTimeout">
+                <property-ui hidden="true" type="textBox" label="UFT Timeout" default-value="-1"
+                             description="Timeout value in seconds. Defaults to no timeout."/>
+            </property>
+            <property name="PerScenarioTimeOut">
+                <property-ui hidden="true" type="textBox" label="Per Scenario Timeout" default-value="10"
+                             description="Timeout value in seconds."/>
+            </property>
+            <property name="paramsFileName">
+                <property-ui hidden="true" type="textBox" label="Parameters Filename"
+                             default-value="Params${p:request.id}.txt"
+                             description="The name of the Parameters file created for execution."/>
+            </property>
+            <property name="resultsFileName">
+                <property-ui hidden="true" type="textBox" label="Results Filename"
+                             default-value="Results${p:request.id}.xml"
+                             description="The name of the XML the results will be written to."/>
+            </property>
+            <property name="verbose">
+                <property-ui hidden="true" type="checkBox" label="Verbose"
+                             description="Display verbose output while executing commands."/>
+            </property>
+        </properties>
+        <post-processing><![CDATA[
+        properties.put("Status", "Success");
+        if (properties.get("exitCode") != 0) {
+            properties.put("Status", "Failure");
+        }
+        else {
+            scanner.register("(?i)Test result: Failed",  function(lineNumber, line) {
+                commandOut.println("Received Error");
+                commandOut.println(lineNumber.toString() + " : " + line);
+                var errors = properties.get("Error");
+                if (errors == null) {
+                    errors = new java.util.ArrayList();
+                }
+                errors.add(line);
+                properties.put("Error", errors);
+
+                properties.put("Status", "Failure");
+            });
+            scanner.scan();
+
+            var errors = properties.get("Error");
+            if (errors == null) {
+                errors = new java.util.ArrayList();
+            }
+            properties.put("Error", errors.toString());
+        }
+     ]]></post-processing>
+        <command program="${GROOVY_HOME}/bin/groovy">
+            <arg value="-cp"/>
+            <arg path="classes:lib/MicroFocus-AAT.jar"/>
+            <arg value="-Djnp.disableDiscovery=true"/>
+            <arg file="uft_scenario_from_filesystem.groovy"/>
+            <arg file="${PLUGIN_INPUT_PROPS}"/>
+            <arg file="${PLUGIN_OUTPUT_PROPS}"/>
+        </command>
+    </step-type>
+    <step-type name="UFT Scenario from ALM">
+        <description>Execute a UFT Scenario from ALM</description>
+        <properties>
+            <property name="tests" required="true">
+                <property-ui type="textAreaBox" label="Test Sets"
+                             description="List of tests or folders that contain tests, to run. Each line should contain a single test, folder, or MTB file."/>
+            </property>
+            <property name="almServerUrl" required="true">
+                <property-ui type="textBox" label="ALM Server URL"
+                             description="The URL for the ALM Server."/>
+            </property>
+            <property name="almUserName" required="true">
+                <property-ui type="textBox" label="ALM User Name"
+                             description="The user name for the ALM Server."/>
+            </property>
+            <property name="almPassword">
+                <property-ui type="secureBox" label="ALM Password"
+                             description="The user password for the ALM Server."/>
+            </property>
+            <property name="almProject" required="true">
+                <property-ui type="textBox" label="ALM Project"
+                             description="The project for the ALM Server."/>
+            </property>
+            <property name="almDomain" required="true">
+                <property-ui type="textBox" label="ALM Domain"
+                             description="The domain for the ALM Server."/>
+            </property>
+            <property name="almRunMode">
+                <property-ui type="selectBox" label="ALM Run Mode"/>
+                <value label="Run Locally">RUN_LOCAL</value>
+                <value label="Run on Planned Host">RUN_PLANNED_HOST</value>
+                <value label="Run Remotely">RUN_REMOTE</value>
+            </property>
+            <property name="almRunHost">
+                <property-ui type="textBox" label="Testing Tool Host"
+                             description="The ALM Server run host (required if Planned Host selected)."/>
+            </property>
+            <property name="almTimeout">
+                <property-ui hidden="true" type="textBox" label="ALM Timeout" default-value="10"
+                             description="Timeout value in seconds. Defaults to 10 seconds."/>
+            </property>
+            <property name="resultsFileName">
+                <property-ui hidden="true" type="textBox" label="Results Filename"
+                             default-value="Results${p:request.id}.xml"
+                             description="The name of the XML the results will be written to."/>
+            </property>
+            <property name="verbose">
+                <property-ui hidden="true" type="checkBox" label="Verbose"
+                             description="Display verbose output while executing commands."/>
+            </property>
+        </properties>
+        <post-processing><![CDATA[
+        properties.put("Status", "Success");
+        if (properties.get("exitCode") != 0) {
+            properties.put("Status", "Failure");
+        }
+        else {
+            scanner.register("(?i)Test result: Failed",  function(lineNumber, line) {
+                commandOut.println("Received Error");
+                commandOut.println(lineNumber.toString() + " : " + line);
+                var errors = properties.get("Error");
+                if (errors == null) {
+                    errors = new java.util.ArrayList();
+                }
+                errors.add(line);
+                properties.put("Error", errors);
+
+                properties.put("Status", "Failure");
+            });
+            scanner.scan();
+
+            var errors = properties.get("Error");
+            if (errors == null) {
+                errors = new java.util.ArrayList();
+            }
+            properties.put("Error", errors.toString());
+        }
+     ]]></post-processing>
+        <command program="${GROOVY_HOME}/bin/groovy">
+            <arg value="-cp"/>
+            <arg path="classes:lib/MicroFocus-AAT.jar"/>
+            <arg value="-Djnp.disableDiscovery=true"/>
+            <arg file="uft_scenario_from_alm.groovy"/>
+            <arg file="${PLUGIN_INPUT_PROPS}"/>
+            <arg file="${PLUGIN_OUTPUT_PROPS}"/>
+        </command>
+    </step-type>
+    <step-type name="Publish Test Results to Octane">
+        <description>Publish Test Results to Octane</description>
+        <properties>
+            <property name="files" required="true">
+                <property-ui type="textAreaBox" label="Test Files" default-value="Results${p:request.id}.xml"
+                             description="List of files that contain test results, to publish. Each line should contain a path to a file, Ant style regular expression patterns are allowed."/>
+            </property>
+            <property name="productAreas">
+                <property-ui type="textBox" label="Product Area(s)"
+                             description="Comma separated list of product area ids to assign the test results to."/>
+            </property>
+            <property name="backlogItems">
+                <property-ui type="textBox" label="Backlog Item(s)"
+                             description="Comma separated list of backlog item ids to assign the test results to.."/>
+            </property>
+            <property name="oServerUrl" required="true">
+                <property-ui type="textBox" label="Server URL"
+                             description="The URL for the Octane Server."/>
+            </property>
+            <property name="oUserName" required="true">
+                <property-ui type="textBox" label="User Name"
+                             description="The user name for the Octane Server."/>
+            </property>
+            <property name="oPassword">
+                <property-ui type="secureBox" label="Password"
+                             description="The user password for the Octane Server."/>
+            </property>
+            <property name="sharedSpace" required="true">
+                <property-ui type="textBox" label="Shared Space."
+                             description="The Octane shared space id."/>
+            </property>
+            <property name="workspace" required="true">
+                <property-ui type="textBox" label="Workspace"
+                             description="The Octane workspace id."/>
+            </property>
+            <property name="release">
+                <property-ui type="textBox" label="Release"
+                             description="The release id to assign test results to."/>
+            </property>
+            <property name="tags">
+                <property-ui type="textAreaBox" label="Tags"
+                             description="Assign tags to test result in format TYPE=VALUE."/>
+            </property>
+            <property name="skipErrors">
+                <property-ui hidden="true" type="checkBox" label="Skip Errors"
+                             description="Skip errors on the server side."/>
+            </property>
+            <property name="checkResult">
+                <property-ui hidden="true" type="checkBox" label="Check Result"
+                             description="Check test result state after push."/>
+            </property>
+            <property name="verbose">
+                <property-ui hidden="true" type="checkBox" label="Verbose"
+                             description="Display verbose output while executing commands."/>
+            </property>
+        </properties>
+        <post-processing><![CDATA[
+        if (properties.get("exitCode") != 0) {
+            properties.put(new java.lang.String("Status"), new java.lang.String("Failure"));
+        }
+        else {
+            properties.put("Status", "Success");
+        }
+     ]]></post-processing>
+        <command program="${GROOVY_HOME}/bin/groovy">
+            <arg value="-cp"/>
+            <arg path="classes:lib/MicroFocus-AAT.jar"/>
+            <arg value="-Djnp.disableDiscovery=true"/>
+            <arg file="publish_test_results_to_octane.groovy"/>
+            <arg file="${PLUGIN_INPUT_PROPS}"/>
+            <arg file="${PLUGIN_OUTPUT_PROPS}"/>
+        </command>
+    </step-type>
+</plugin>
