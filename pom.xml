@@ -7,15 +7,16 @@
         <groupId>com.serena</groupId>
         <artifactId>air-plugin-build-parent</artifactId>
         <version>CURRENT</version>
-        <relativePath>../air-plugin-build-script/pom.xml</relativePath>
+        <relativePath>../air-plugin-build-parent/pom.xml</relativePath>
     </parent>
 
     <artifactId>MicroFocus-UFT</artifactId>
     <packaging>pom</packaging>
     <name>MicroFocus Unified Function Testing</name>
+    <version>1.0</version>
 
     <properties>
-        <air.plugin.build.script.relative.path>../air-plugin-build-script</air.plugin.build.script.relative.path>
+        <air.plugin.build.parent.relative.path>../air-plugin-build-parent</air.plugin.build.parent.relative.path>
         <mininum.server.version.needed>6.2</mininum.server.version.needed>
         <jdk.version>1.7</jdk.version>
         <maven.compiler.plugin.version>3.6.1</maven.compiler.plugin.version>
@@ -36,33 +37,24 @@
         <maven-javadoc-plugin.version>2.10.4</maven-javadoc-plugin.version>
     </properties>
 
-    <!-- get every artifact through repo.jenkins-ci.org, which proxies all the artifacts that we need -->
     <repositories>
         <repository>
-            <id>repo.jenkins-ci.org</id>
-            <url>https://repo.jenkins-ci.org/public/</url>
-        </repository>
-        <repository>
-            <id>central</id>
-            <url>http://repo1.maven.org/maven2</url>
-        </repository>
-        <repository>
-            <id>bintray-adm-maven</id>
-            <name>bintray</name>
-            <url>http://dl.bintray.com/adm/maven</url>
+            <id>da-local-repository</id>
+            <url>file://${air.plugin.build.parent.relative.path}/da-local-repository</url>
         </repository>
     </repositories>
 
     <dependencies>
-        <dependency>
+        <!--dependency>
             <groupId>com.serena</groupId>
             <artifactId>commons-fileutils</artifactId>
             <version>CURRENT</version>
             <scope>compile</scope>
-        </dependency>
+        </dependency-->
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
