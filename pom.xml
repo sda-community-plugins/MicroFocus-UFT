@@ -16,47 +16,27 @@
     <version>1.0</version>
 
     <properties>
-        <air.plugin.build.parent.relative.path>../air-plugin-build-parent</air.plugin.build.parent.relative.path>
+        <air.plugin.build.parent.absolute.path>${basedir}/../air-plugin-build-parent</air.plugin.build.parent.absolute.path>
         <mininum.server.version.needed>6.2</mininum.server.version.needed>
-        <jdk.version>1.7</jdk.version>
-        <maven.compiler.plugin.version>3.6.1</maven.compiler.plugin.version>
+        <plugin.major.version>1.0</plugin.major.version>
+        <plugin.build.version>dev</plugin.build.version>
         <commons-io.version>2.4</commons-io.version>
         <commons.lang.version>2.5</commons.lang.version>
-        <commons-cli.version>1.3.1</commons-cli.version>
         <commons-lang3.version>3.1</commons-lang3.version>
-        <commons-codec.version>1.10</commons-codec.version>
         <httpclient.version>4.5.1</httpclient.version>
         <httpcore.version>4.4.9</httpcore.version>
         <json.version>20150729</json.version>
-        <junit.version>4.12</junit.version>
         <test-results-collection-tool.version>1.0-SNAPSHOT</test-results-collection-tool.version>
-        <surefire.version>2.18.1</surefire.version>
-        <nexus-staging-maven-plugin.version>1.6.7</nexus-staging-maven-plugin.version>
-        <maven-gpg-plugin.version>1.5</maven-gpg-plugin.version>
-        <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
-        <maven-javadoc-plugin.version>2.10.4</maven-javadoc-plugin.version>
     </properties>
 
     <repositories>
         <repository>
-            <id>da-local-repository</id>
-            <url>file://${air.plugin.build.parent.relative.path}/da-local-repository</url>
+            <id>local-repository</id>
+            <url>file://${air.plugin.build.parent.absolute.path}/da-local-repository</url>
         </repository>
     </repositories>
 
     <dependencies>
-        <!--dependency>
-            <groupId>com.serena</groupId>
-            <artifactId>commons-fileutils</artifactId>
-            <version>CURRENT</version>
-            <scope>compile</scope>
-        </dependency-->
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
-            <scope>compile</scope>
-        </dependency>
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
