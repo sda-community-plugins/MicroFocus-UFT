@@ -5,7 +5,6 @@ It is run during development and deployment to automate the execution of functio
 
 This plugin is a work in progress but it is intended to provide the following steps:
 
-#####UFT
 * [x] **UFT Scenario from File system** - Execute a UFT Scenario from the File System
 * [x] **UFT Scenario from ALM** - Execute a UFT Scenario from ALM
 * [x] **Publish Results to Octane** - Take the output of one of the preceding steps and publish the test results to Octane
@@ -13,7 +12,7 @@ This plugin is a work in progress but it is intended to provide the following st
 
 Download the latest version from the _release_ directory and install into Deployment Automation.
 
-**Note**: the plugin only works on Windows based systems.
+Because of the nature of UFT and its integration this plugin only works on Windows based systems.
 
 ### Building the plugin
 
@@ -21,9 +20,11 @@ To build the plugin you will need to clone the following repositories (at the sa
 
  - [mavenBuildConfig](https://github.com/sda-community-plugins/mavenBuildConfig)
  - [plugins-build-parent](https://github.com/sda-community-plugins/plugins-build-parent)
- - [air-plugin-build-script] (https://github.com/sda-community-plugins/air-plugin-build-script)
+ - [air-plugin-build-script](https://github.com/sda-community-plugins/air-plugin-build-script)
  
  and then compile using the following command
- '''
+ ```
    mvn clean package
- '''  
+ ```  
+
+**Please note: this plugins is provided as a "community" plugin and is not supported by Micro Focus in any way**.
