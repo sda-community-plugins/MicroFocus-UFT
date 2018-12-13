@@ -7,7 +7,7 @@
         <groupId>com.serena</groupId>
         <artifactId>air-plugin-build-parent</artifactId>
         <version>CURRENT</version>
-        <relativePath>../air-plugin-build-parent/pom.xml</relativePath>
+        <relativePath>../air-plugin-build-script/pom.xml</relativePath>
     </parent>
 
     <artifactId>MicroFocus-UFT</artifactId>

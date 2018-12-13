@@ -14,3 +14,16 @@ This plugin is a work in progress but it is intended to provide the following st
 Download the latest version from the _release_ directory and install into Deployment Automation.
 
 **Note**: the plugin only works on Windows based systems.
+
+### Building the plugin
+
+To build the plugin you will need to clone the following repositories (at the same level as the repository):
+
+ - [mavenBuildConfig](https://github.com/sda-community-plugins/mavenBuildConfig)
+ - [plugins-build-parent](https://github.com/sda-community-plugins/plugins-build-parent)
+ - [air-plugin-build-script] (https://github.com/sda-community-plugins/air-plugin-build-script)
+ 
+ and then compile using the following command
+ '''
+   mvn clean package
+ '''  
