@@ -12,78 +12,39 @@
 
     <artifactId>MicroFocus-UFT</artifactId>
     <packaging>pom</packaging>
-    <name>MicroFocus Unified Function Testing</name>
+    <name>MicroFocus-UFT</name>
+    <description>MicroFocus Unified Functional Testing (UFT) Plugin</description>
     <version>1.0</version>
 
     <properties>
         <air.plugin.build.parent.absolute.path>${basedir}/../air-plugin-build-parent</air.plugin.build.parent.absolute.path>
         <mininum.server.version.needed>6.2</mininum.server.version.needed>
-        <plugin.major.version>1.0</plugin.major.version>
-        <plugin.build.version>dev</plugin.build.version>
-        <commons-io.version>2.4</commons-io.version>
-        <commons.lang.version>2.5</commons.lang.version>
-        <commons-lang3.version>3.1</commons-lang3.version>
-        <httpclient.version>4.5.1</httpclient.version>
-        <httpcore.version>4.4.9</httpcore.version>
-        <json.version>20150729</json.version>
+        <plugin.major.version>1</plugin.major.version>
+        <plugin.build.version>001</plugin.build.version>
         <test-results-collection-tool.version>1.0-SNAPSHOT</test-results-collection-tool.version>
     </properties>
 
     <repositories>
         <repository>
             <id>local-repository</id>
-            <url>file://${air.plugin.build.parent.absolute.path}/da-local-repository</url>
+            <url>file://../mavenBuildConfig/repo</url>
         </repository>
     </repositories>
 
     <dependencies>
         <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>${commons.lang.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-            <version>${commons-codec.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>${commons-io.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${commons-lang3.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>${json.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpcore</artifactId>
-            <version>${httpcore.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>${httpclient.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>com.hpe.adm.octane.ciplugins</groupId>
             <artifactId>test-result-collection-tool</artifactId>
             <version>${test-results-collection-tool.version}</version>
             <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.serena</groupId>
+            <artifactId>air-plugin-ant-tasks</artifactId>
+            <version>CURRENT</version>
+            <scope>test</scope>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 
