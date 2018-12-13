@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://www.urbancode.com/PluginXMLSchema_v1">
     <header>
-        <identifier version="1" id="com.urbancode.air.plugin.MicroFocus-AAT"
-                    name="Micro Focus Application Automation Tools"/>
+        <identifier version="1" id="com.urbancode.air.plugin.MicroFocus-UAT"
+                    name="Micro Focus Unified Function Testing"/>
         <description>
 			The Micro Focus Unified Functional Testing (UFT) Plugin plugin is a quality automation based plugin. 
 			It is run during development and deployment to automate the execution of functional tests.
         </description>
-        <tag>Quality/Micro Focus</tag>
+        <tag>Quality/Micro Focus UFT</tag>
     </header>
     <!-- ==================================== -->
     <!--   PLUGIN STEPS                          -->
@@ -84,7 +84,7 @@
      ]]></post-processing>
         <command program="${GROOVY_HOME}/bin/groovy">
             <arg value="-cp"/>
-            <arg path="classes:lib/MicroFocus-AAT.jar"/>
+            <arg path="classes:lib/*.jar"/>
             <arg value="-Djnp.disableDiscovery=true"/>
             <arg file="uft_scenario_from_filesystem.groovy"/>
             <arg file="${PLUGIN_INPUT_PROPS}"/>
@@ -171,7 +171,7 @@
      ]]></post-processing>
         <command program="${GROOVY_HOME}/bin/groovy">
             <arg value="-cp"/>
-            <arg path="classes:lib/MicroFocus-AAT.jar"/>
+            <arg path="classes:lib/*.jar"/>
             <arg value="-Djnp.disableDiscovery=true"/>
             <arg file="uft_scenario_from_alm.groovy"/>
             <arg file="${PLUGIN_INPUT_PROPS}"/>
@@ -244,7 +244,7 @@
      ]]></post-processing>
         <command program="${GROOVY_HOME}/bin/groovy">
             <arg value="-cp"/>
-            <arg path="classes:lib/MicroFocus-AAT.jar"/>
+            <arg path="classes:lib/*.jar"/>
             <arg value="-Djnp.disableDiscovery=true"/>
             <arg file="publish_test_results_to_octane.groovy"/>
             <arg file="${PLUGIN_INPUT_PROPS}"/>
