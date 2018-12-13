@@ -1,6 +1,6 @@
 # Micro Focus Unified Functional Testing (UFT) Plugin
 
-The _Micro Focus Unified Functional Testing_ (UFT) Plugin plugin is a quality automation based plugin. 
+The _Micro Focus Unified Functional Testing_ (UFT) plugin is a quality automation based plugin. 
 It is run during development and deployment to automate the execution of functional tests.
 
 This plugin is a work in progress but it is intended to provide the following steps:
@@ -10,3 +10,7 @@ This plugin is a work in progress but it is intended to provide the following st
 * [x] **UFT Scenario from ALM** - Execute a UFT Scenario from ALM
 * [x] **Publish Results to Octane** - Take the output of one of the preceding steps and publish the test results to Octane
 * [ ] **Publish Results to HTML** - Take the XML output of one the preceding steps and convert to HTML file so it can be attached in DA
+
+Download the latest version from the _release_ directory and install into Deployment Automation.
+
+**Note**: the plugin only works on Windows based systems.
