@@ -20,7 +20,7 @@
         <air.plugin.build.parent.absolute.path>${basedir}/../air-plugin-build-parent</air.plugin.build.parent.absolute.path>
         <mininum.server.version.needed>6.2</mininum.server.version.needed>
         <plugin.major.version>1</plugin.major.version>
-        <plugin.build.version>001</plugin.build.version>
+        <plugin.build.version>SNAPSHOT</plugin.build.version>
         <test-results-collection-tool.version>1.0-SNAPSHOT</test-results-collection-tool.version>
     </properties>
 
@@ -44,6 +44,19 @@
             <artifactId>air-plugin-ant-tasks</artifactId>
             <version>CURRENT</version>
             <scope>test</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.serena</groupId>
+            <artifactId>plugins-commons</artifactId>
+            <version>CURRENT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.serena</groupId>
+            <artifactId>plugins-commons</artifactId>
+            <version>CURRENT</version>
+            <classifier>sources</classifier>
+            <type>zip</type>
             <optional>true</optional>
         </dependency>
     </dependencies>

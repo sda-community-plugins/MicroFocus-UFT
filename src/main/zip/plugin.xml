@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://www.urbancode.com/PluginXMLSchema_v1">
     <header>
-        <identifier version="1" id="com.urbancode.air.plugin.MicroFocus-UAT"
-                    name="Micro Focus Unified Function Testing"/>
+        <identifier version="1" id="com.serena.air.plugin.MicroFocus-UAT"
+                    name="Micro Focus Unified Functional Testing"/>
         <description>
-			The Micro Focus Unified Functional Testing (UFT) Plugin plugin is a quality automation based plugin. 
+			The Micro Focus Unified Functional Testing (UFT) Plugin is a quality automation based plugin.
 			It is run during development and deployment to automate the execution of functional tests.
         </description>
         <tag>Quality/Micro Focus UFT</tag>
@@ -15,7 +15,7 @@
     <step-type name="UFT Scenario from Filesystem">
         <description>Execute a UFT Scenario from the file system</description>
         <properties>
-            <property name="tests">
+            <property name="tests" required="true">
                 <property-ui type="textAreaBox" label="Tests"
                              description="List of tests or folders that contain tests, to run. Each line should contain a single test, folder, or MTB file."/>
             </property>
@@ -50,41 +50,43 @@
                              default-value="Results${p:request.id}.xml"
                              description="The name of the XML the results will be written to."/>
             </property>
-            <property name="verbose">
-                <property-ui hidden="true" type="checkBox" label="Verbose"
-                             description="Display verbose output while executing commands."/>
+            <property name="debugMode" required="false">
+                <property-ui type="checkBox" label="Debug Output" hidden="true"
+                             description="Select this option to display debug output during execution."/>
             </property>
         </properties>
-        <post-processing><![CDATA[
-        properties.put("Status", "Success");
-        if (properties.get("exitCode") != 0) {
-            properties.put("Status", "Failure");
-        }
-        else {
-            scanner.register("(?i)Test result: Failed",  function(lineNumber, line) {
-                commandOut.println("Received Error");
-                commandOut.println(lineNumber.toString() + " : " + line);
-                var errors = properties.get("Error");
-                if (errors == null) {
-                    errors = new java.util.ArrayList();
+        <post-processing>
+            <![CDATA[
+                properties.put("Status", "Success");
+                if (properties.get("exitCode") != 0) {
+                    properties.put("Status", "Failure");
                 }
-                errors.add(line);
-                properties.put("Error", errors);
+                else {
+                    scanner.register("(?i)Test result: Failed",  function(lineNumber, line) {
+                        commandOut.println("Received Error");
+                        commandOut.println(lineNumber.toString() + " : " + line);
+                        var errors = properties.get("Error");
+                        if (errors == null) {
+                            errors = new java.util.ArrayList();
+                        }
+                        errors.add(line);
+                        properties.put("Error", errors);
 
-                properties.put("Status", "Failure");
-            });
-            scanner.scan();
+                        properties.put("Status", "Failure");
+                    });
+                    scanner.scan();
 
-            var errors = properties.get("Error");
-            if (errors == null) {
-                errors = new java.util.ArrayList();
-            }
-            properties.put("Error", errors.toString());
-        }
-     ]]></post-processing>
+                    var errors = properties.get("Error");
+                    if (errors == null) {
+                        errors = new java.util.ArrayList();
+                    }
+                    properties.put("Error", errors.toString());
+                }
+            ]]>
+        </post-processing>
         <command program="${GROOVY_HOME}/bin/groovy">
             <arg value="-cp"/>
-            <arg path="classes:lib/*.jar"/>
+            <arg path="classes:lib/*"/>
             <arg value="-Djnp.disableDiscovery=true"/>
             <arg file="uft_scenario_from_filesystem.groovy"/>
             <arg file="${PLUGIN_INPUT_PROPS}"/>
@@ -132,46 +134,53 @@
                 <property-ui hidden="true" type="textBox" label="ALM Timeout" default-value="10"
                              description="Timeout value in seconds. Defaults to 10 seconds."/>
             </property>
+            <property name="paramsFileName">
+                <property-ui hidden="true" type="textBox" label="Parameters Filename"
+                             default-value="Params${p:request.id}.txt"
+                             description="The name of the Parameters file created for execution."/>
+            </property>
             <property name="resultsFileName">
                 <property-ui hidden="true" type="textBox" label="Results Filename"
                              default-value="Results${p:request.id}.xml"
                              description="The name of the XML the results will be written to."/>
             </property>
-            <property name="verbose">
-                <property-ui hidden="true" type="checkBox" label="Verbose"
-                             description="Display verbose output while executing commands."/>
+            <property name="debugMode" required="false">
+                <property-ui type="checkBox" label="Debug Output" hidden="true"
+                             description="Select this option to display debug output during execution."/>
             </property>
         </properties>
-        <post-processing><![CDATA[
-        properties.put("Status", "Success");
-        if (properties.get("exitCode") != 0) {
-            properties.put("Status", "Failure");
-        }
-        else {
-            scanner.register("(?i)Test result: Failed",  function(lineNumber, line) {
-                commandOut.println("Received Error");
-                commandOut.println(lineNumber.toString() + " : " + line);
-                var errors = properties.get("Error");
-                if (errors == null) {
-                    errors = new java.util.ArrayList();
+        <post-processing>
+            <![CDATA[
+                properties.put("Status", "Success");
+                if (properties.get("exitCode") != 0) {
+                    properties.put("Status", "Failure");
                 }
-                errors.add(line);
-                properties.put("Error", errors);
+                else {
+                    scanner.register("(?i)Test result: Failed",  function(lineNumber, line) {
+                        commandOut.println("Received Error");
+                        commandOut.println(lineNumber.toString() + " : " + line);
+                        var errors = properties.get("Error");
+                        if (errors == null) {
+                            errors = new java.util.ArrayList();
+                        }
+                        errors.add(line);
+                        properties.put("Error", errors);
 
-                properties.put("Status", "Failure");
-            });
-            scanner.scan();
+                        properties.put("Status", "Failure");
+                    });
+                    scanner.scan();
 
-            var errors = properties.get("Error");
-            if (errors == null) {
-                errors = new java.util.ArrayList();
-            }
-            properties.put("Error", errors.toString());
-        }
-     ]]></post-processing>
+                    var errors = properties.get("Error");
+                    if (errors == null) {
+                        errors = new java.util.ArrayList();
+                    }
+                    properties.put("Error", errors.toString());
+                }
+            ]]>
+        </post-processing>
         <command program="${GROOVY_HOME}/bin/groovy">
             <arg value="-cp"/>
-            <arg path="classes:lib/*.jar"/>
+            <arg path="classes:lib/*"/>
             <arg value="-Djnp.disableDiscovery=true"/>
             <arg file="uft_scenario_from_alm.groovy"/>
             <arg file="${PLUGIN_INPUT_PROPS}"/>
@@ -179,7 +188,7 @@
         </command>
     </step-type>
     <step-type name="Publish Test Results to Octane">
-        <description>Publish Test Results to Octane</description>
+        <description>Publish Test Results to ALM Octane</description>
         <properties>
             <property name="files" required="true">
                 <property-ui type="textAreaBox" label="Test Files" default-value="Results${p:request.id}.xml"
@@ -194,27 +203,27 @@
                              description="Comma separated list of backlog item ids to assign the test results to.."/>
             </property>
             <property name="oServerUrl" required="true">
-                <property-ui type="textBox" label="Server URL"
+                <property-ui type="textBox" label="Octane Server URL"
                              description="The URL for the Octane Server."/>
             </property>
             <property name="oUserName" required="true">
-                <property-ui type="textBox" label="User Name"
+                <property-ui type="textBox" label="Octane User Name"
                              description="The user name for the Octane Server."/>
             </property>
             <property name="oPassword">
-                <property-ui type="secureBox" label="Password"
+                <property-ui type="secureBox" label="Octane Password"
                              description="The user password for the Octane Server."/>
             </property>
             <property name="sharedSpace" required="true">
-                <property-ui type="textBox" label="Shared Space."
+                <property-ui type="textBox" label="Shared Space Id."
                              description="The Octane shared space id."/>
             </property>
             <property name="workspace" required="true">
-                <property-ui type="textBox" label="Workspace"
+                <property-ui type="textBox" label="Workspace Id"
                              description="The Octane workspace id."/>
             </property>
             <property name="release">
-                <property-ui type="textBox" label="Release"
+                <property-ui type="textBox" label="Release Id"
                              description="The release id to assign test results to."/>
             </property>
             <property name="tags">
@@ -229,22 +238,24 @@
                 <property-ui hidden="true" type="checkBox" label="Check Result"
                              description="Check test result state after push."/>
             </property>
-            <property name="verbose">
-                <property-ui hidden="true" type="checkBox" label="Verbose"
-                             description="Display verbose output while executing commands."/>
+            <property name="debugMode" required="false">
+                <property-ui type="checkBox" label="Debug Output" hidden="true"
+                             description="Select this option to display debug output during execution."/>
             </property>
         </properties>
-        <post-processing><![CDATA[
-        if (properties.get("exitCode") != 0) {
-            properties.put(new java.lang.String("Status"), new java.lang.String("Failure"));
-        }
-        else {
-            properties.put("Status", "Success");
-        }
-     ]]></post-processing>
+        <post-processing>
+            <![CDATA[
+                if (properties.get("exitCode") != 0) {
+                    properties.put("Status", "Failure");
+                }
+                else {
+                    properties.put("Status", "Success");
+                }
+            ]]>
+        </post-processing>
         <command program="${GROOVY_HOME}/bin/groovy">
             <arg value="-cp"/>
-            <arg path="classes:lib/*.jar"/>
+            <arg path="classes:lib/*"/>
             <arg value="-Djnp.disableDiscovery=true"/>
             <arg file="publish_test_results_to_octane.groovy"/>
             <arg file="${PLUGIN_INPUT_PROPS}"/>

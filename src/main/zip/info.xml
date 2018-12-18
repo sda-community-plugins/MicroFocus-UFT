@@ -35,7 +35,6 @@
 
     <integration type="Quality"/>
 
-
     <!--
     **source is NOT required**
 
@@ -71,7 +70,7 @@
     -->
 
     <tool-description>
-        The Micro Focus Unified Functional Testing (UFT) Plugin plugin is a quality automation based plugin. 
+        The Micro Focus Unified Functional Testing (UFT) Plugin is a quality automation based plugin.
 		It is run during development and deployment to automate the execution of functional tests.
     </tool-description>
 
