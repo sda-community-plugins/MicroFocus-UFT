@@ -7,7 +7,7 @@
 			The Micro Focus Unified Functional Testing (UFT) Plugin is a quality automation based plugin.
 			It is run during development and deployment to automate the execution of functional tests.
         </description>
-        <tag>Quality/Micro Focus UFT</tag>
+        <tag>Quality/Micro Focus/Unified Functional Testing</tag>
     </header>
     <!-- ==================================== -->
     <!--   PLUGIN STEPS                       -->
@@ -101,23 +101,23 @@
                              description="List of tests or folders that contain tests, to run. Each line should contain a single test, folder, or MTB file."/>
             </property>
             <property name="almServerUrl" required="true">
-                <property-ui type="textBox" label="ALM Server URL"
+                <property-ui type="textBox" label="ALM Server URL" default-value="${p:system/alm.serverUrl}"
                              description="The URL for the ALM Server."/>
             </property>
             <property name="almUserName" required="true">
-                <property-ui type="textBox" label="ALM User Name"
+                <property-ui type="textBox" label="ALM User Name" default-value="${p:system/alm.user}"
                              description="The user name for the ALM Server."/>
             </property>
             <property name="almPassword">
-                <property-ui type="secureBox" label="ALM Password"
+                <property-ui type="secureBox" label="ALM Password" default-value="${p:system/alm.password}"
                              description="The user password for the ALM Server."/>
             </property>
-            <property name="almProject" required="true">
-                <property-ui type="textBox" label="ALM Project"
+            <property name="almProject" required="true" >
+                <property-ui type="textBox" label="ALM Project" default-value="${p:application/alm.project}"
                              description="The project for the ALM Server."/>
             </property>
             <property name="almDomain" required="true">
-                <property-ui type="textBox" label="ALM Domain"
+                <property-ui type="textBox" label="ALM Domain" default-value="${p:application/alm.domain}"
                              description="The domain for the ALM Server."/>
             </property>
             <property name="almRunMode">
