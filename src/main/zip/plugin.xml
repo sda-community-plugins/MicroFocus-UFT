@@ -10,7 +10,7 @@
         <tag>Quality/Micro Focus UFT</tag>
     </header>
     <!-- ==================================== -->
-    <!--   PLUGIN STEPS                          -->
+    <!--   PLUGIN STEPS                       -->
     <!-- ==================================== -->
     <step-type name="UFT Scenario from Filesystem">
         <description>Execute a UFT Scenario from the file system</description>

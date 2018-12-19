@@ -22,6 +22,12 @@ final boolean os9 = (osName =~ /mac/ && !osName.endsWith('x'))
 final boolean unix = (pathSep == ':' && !vms && !os9)
 
 //
+// Initialise the plugin tool and retrieve all the properties that were sent to the step.
+//
+final def  apTool = new AirPluginTool(this.args[0], this.args[1])
+final def  props  = new StepPropertiesHelper(apTool.getStepProperties(), true)
+
+//
 // Set a variable for each of the plugin steps's inputs.
 // We can check whether a required input is supplied (the helper will fire an exception if not) and
 // if it is of the required type.
