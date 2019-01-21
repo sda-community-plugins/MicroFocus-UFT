@@ -45,8 +45,8 @@ String sharedSpace = props.notNull('sharedSpace')
 String workspace = props.notNull('workspace')
 String release = props.optional('release')
 String tags = props.optional('tags')
-boolean skipErrors = props.optionalBoolean('oPassword')
-boolean checkResult = props.optionalBoolean('checkResult')
+boolean skipErrors = props.optionalBoolean('skipErrors', false)
+boolean checkResult = props.optionalBoolean('checkResult', false)
 boolean debugMode = props.optionalBoolean("debugMode", false)
 
 println "----------------------------------------"
